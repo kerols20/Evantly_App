@@ -3,9 +3,14 @@ import 'package:evanly/core/extensions/custom_form_Filed.dart';
 import 'package:evanly/core/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
-class signIn extends StatelessWidget {
+class signIn extends StatefulWidget {
   const signIn({super.key});
 
+  @override
+  State<signIn> createState() => _signInState();
+}
+
+class _signInState extends State<signIn> {
   @override
   Widget build(BuildContext context) {
     var Size = MediaQuery.of(context);
@@ -18,7 +23,9 @@ class signIn extends StatelessWidget {
           ),
           CustomFormField(labelText: 'Email', hintText: 'example@gmail.com',prefixIcon: Icons.email_rounded, ),
           SizedBox(height:10 ,),
-          CustomFormField(labelText: 'Password', hintText: 'Enter your password',prefixIcon: Icons.lock_outline, suffixIcon: Icons.remove_red_eye, ),
+          CustomFormField(
+            isPassword: true,
+            labelText: 'Password', hintText: 'Enter your password',prefixIcon: Icons.lock_outline, suffixIcon: Icons.remove_red_eye, ),
         ],
       ).setCenter(),
     );
