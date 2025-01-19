@@ -27,7 +27,7 @@ class _SplachScreenState extends State<SplachScreen> {
     return Scaffold(
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          //mainAxisAlignment: MainAxisAlignment.center,
          children: [
            Image.asset(app_images.splachLogo,height: Size.size.height *0.25,),
          ],
