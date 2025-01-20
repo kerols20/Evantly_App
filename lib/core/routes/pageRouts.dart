@@ -4,4 +4,6 @@ class PagesRouteName {
   static const String scound = "/ko2";
   static const String signIn = "/signIn_view";
   static const String signUp = "/signUp_view";
+  static const String Creat_Account = "/Creat_Account";
+  static const String RePassword = "/RePassword";
 }

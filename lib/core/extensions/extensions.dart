@@ -6,3 +6,11 @@ extension CenterWidget on Widget{
     );
   }
 }
+extension RightWidget on Widget{
+  Widget setRight(){
+    return Align(
+      alignment: Alignment.centerRight,
+      child: this,
+    );
+  }
+}

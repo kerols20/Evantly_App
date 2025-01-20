@@ -48,11 +48,11 @@ class _CustomFormFieldState extends State<CustomFormField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: widget.padding ?? const EdgeInsets.all(8.0), // تطبيق padding
+      padding: widget.padding ?? const EdgeInsets.only(left: 10, right: 10 , top: 10,), // تطبيق padding
       child: TextFormField(
         controller: widget.controller,
         keyboardType: widget.keyboardType,
-        obscureText: widget.obscureText,
+        obscureText: widget.isPassword ? _isObscured : false,
         validator: widget.validator,
         enabled: widget.enabled,
         decoration: InputDecoration(
@@ -61,7 +61,7 @@ class _CustomFormFieldState extends State<CustomFormField> {
           prefixIcon: widget.prefixIcon != null ? Icon(widget.prefixIcon) : null,
           suffixIcon: widget.suffixIcon != null
               ? IconButton(
-            icon: Icon(_isObscured ? Icons.visibility : Icons.visibility_off,),
+            icon: Icon(_isObscured ? Icons.visibility_off : Icons.visibility,),
             onPressed: (){
               setState(() {
                 _isObscured = !_isObscured;
@@ -71,12 +71,12 @@ class _CustomFormFieldState extends State<CustomFormField> {
               : null,
           enabledBorder: widget.enabledBorder ??
               OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(15),
                 borderSide: BorderSide(color: app_color.appColorIconAndTextFormFiled, width: 2),
               ),
           focusedBorder: widget.focusedBorder ??
               OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(15),
                 borderSide: BorderSide(color: app_color.appColorIconAndTextFormFiled),
               ),
         ),

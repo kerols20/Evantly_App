@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 class scound_splach extends StatelessWidget {
    scound_splach({super.key});
-
   @override
   Widget build(BuildContext context) {
     var Meda = MediaQuery.of(context);
