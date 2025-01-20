@@ -7,4 +7,5 @@ class app_images{
   static String ImageThreenbording = "assets/images/being-creative (2).png";
   static String ConstantLogoEvanly = "assets/images/Group 4.png";
   static String ON = "assets/images/hot-trending.png";
+  static String IamgeFive = "assets/images/change-setting.png";
 }

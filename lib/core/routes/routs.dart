@@ -1,4 +1,6 @@
 import 'package:evanly/core/routes/pageRouts.dart';
+import 'package:evanly/modules/signIn/creat_Account.dart';
+import 'package:evanly/modules/signIn/rePassword.dart';
 import 'package:evanly/modules/signIn/signIn.dart';
 import 'package:evanly/modules/splachScreen/scound_splach.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +28,16 @@ abstract class AppRoutes {
       case PagesRouteName.signIn:
         return MaterialPageRoute(
           builder: (context) => signIn(),
+          settings: settings,
+        );
+      case PagesRouteName.Creat_Account:
+        return MaterialPageRoute(
+          builder: (context) => CreatAccount(),
+          settings: settings,
+        );
+      case PagesRouteName.RePassword:
+        return MaterialPageRoute(
+          builder: (context) => rePassword(),
           settings: settings,
         );
       default:
