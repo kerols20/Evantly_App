@@ -1,8 +1,8 @@
-import 'package:evanly/core/constant/app_color.dart';
 import 'package:flutter/material.dart';
+import 'package:evanly/core/constant/app_color.dart';
 
 class CustomFormField extends StatefulWidget {
-  final String labelText;
+  final String? labelText;
   final String? hintText;
   final TextEditingController? controller;
   final TextInputType keyboardType;
@@ -16,23 +16,25 @@ class CustomFormField extends StatefulWidget {
   final InputBorder? focusedBorder;
   final bool enabled;
   final EdgeInsetsGeometry? padding;
+  final void Function(String)? onChanged; // خاصية onChanged
 
   const CustomFormField({
     Key? key,
-    required this.labelText,
+    this.labelText,
     this.hintText,
     this.controller,
     this.keyboardType = TextInputType.text,
     this.validator,
     this.isPassword = false,
     this.obscureText = false,
-    this.prefixIcon, // أيقونة على اليسار
-    this.suffixIcon, // أيقونة على اليمين
+    this.prefixIcon,
+    this.suffixIcon,
     this.onSuffixIconPressed,
     this.enabledBorder,
     this.focusedBorder,
     this.enabled = true,
-    this.padding, // إضافة خاصية padding
+    this.padding,
+    this.onChanged,
   }) : super(key: key);
 
   @override
@@ -41,28 +43,37 @@ class CustomFormField extends StatefulWidget {
 
 class _CustomFormFieldState extends State<CustomFormField> {
   late bool _isObscured;
+
+  @override
   void initState() {
     super.initState();
-    _isObscured = widget.isPassword; // إذا كان الحقل كلمة مرور، يتم إخفاء النص مبدئيًا
+    _isObscured = widget.isPassword;
   }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: widget.padding ?? const EdgeInsets.only(left: 10, right: 10 , top: 10,), // تطبيق padding
+      padding: widget.padding ?? const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: TextFormField(
         controller: widget.controller,
         keyboardType: widget.keyboardType,
         obscureText: widget.isPassword ? _isObscured : false,
         validator: widget.validator,
         enabled: widget.enabled,
+        onChanged: (value) {
+          print('Entered text: $value'); // طباعة النص في الـ Console
+          if (widget.onChanged != null) {
+            widget.onChanged!(value); // استدعاء الدالة إذا تم توفيرها
+          }
+        },
         decoration: InputDecoration(
           labelText: widget.labelText,
           hintText: widget.hintText,
           prefixIcon: widget.prefixIcon != null ? Icon(widget.prefixIcon) : null,
           suffixIcon: widget.suffixIcon != null
               ? IconButton(
-            icon: Icon(_isObscured ? Icons.visibility_off : Icons.visibility,),
-            onPressed: (){
+            icon: Icon(_isObscured ? Icons.visibility_off : Icons.visibility),
+            onPressed: () {
               setState(() {
                 _isObscured = !_isObscured;
               });

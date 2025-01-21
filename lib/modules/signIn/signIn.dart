@@ -1,4 +1,5 @@
 import 'package:evanly/core/constant/app_color.dart';
+import 'package:evanly/core/constant/app_constant_icons.dart';
 import 'package:evanly/core/constant/app_constant_images.dart';
 import 'package:evanly/core/extensions/custom_form_Filed.dart';
 import 'package:evanly/core/extensions/extensions.dart';
@@ -75,7 +76,33 @@ class _signInState extends State<signIn> {
                 thickness: 2,
               ),),
             ],
-          )
+          ),
+          SizedBox(height: 10,),
+          Padding(
+            padding:  EdgeInsets.only(left: 10, right: 10),
+            child: OutlinedButton(onPressed: () {
+              //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            }, child:Row(
+              children: [
+                SizedBox(width: 120,),
+                ImageIcon(AssetImage(icons_app.GoogelIcon,)),
+                SizedBox(width: 10,),
+                Text("Login With Google")
+              ],
+            ) ,
+              style: OutlinedButton.styleFrom(
+                side: BorderSide(
+                  width: 2,
+                  color: app_color.appColorGeneral
+                ),
+                  minimumSize: Size(390, 60),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
+                  ),
+                  backgroundColor: app_color.appColorsWhite
+              ),
+            ),
+          ),
         ],
       ).setCenter(),
     );
