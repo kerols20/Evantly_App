@@ -1,5 +1,8 @@
+import 'package:bot_toast/bot_toast.dart';
+import 'package:evanly/core/services/loading_services.dart';
 import 'package:evanly/core/theme/app_theme_mangment.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'core/routes/pageRouts.dart';
 import 'core/routes/routs.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -12,6 +15,7 @@ void main()async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
+  Services_loading();
 }
 
 class MyApp extends StatelessWidget {
@@ -22,6 +26,9 @@ class MyApp extends StatelessWidget {
       theme: appTheme.lightTheme,
       debugShowCheckedModeBanner: false,
       initialRoute: PagesRouteName.splach, // نقطة البداية
+      builder: EasyLoading.init(
+        builder: BotToastInit(),
+      ),
       onGenerateRoute: AppRoutes.onGeneratedRoute,
     );
   }
