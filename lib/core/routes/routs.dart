@@ -1,4 +1,5 @@
 import 'package:evanly/core/routes/pageRouts.dart';
+import 'package:evanly/modules/homeScreen/layout_Home.dart';
 import 'package:evanly/modules/signIn/creat_Account.dart';
 import 'package:evanly/modules/signIn/rePassword.dart';
 import 'package:evanly/modules/signIn/signIn.dart';
@@ -38,6 +39,11 @@ abstract class AppRoutes {
       case PagesRouteName.RePassword:
         return MaterialPageRoute(
           builder: (context) => rePassword(),
+          settings: settings,
+        );
+      case PagesRouteName.layoutHome:
+        return MaterialPageRoute(
+          builder: (context) => LayoutHome(),
           settings: settings,
         );
       default:

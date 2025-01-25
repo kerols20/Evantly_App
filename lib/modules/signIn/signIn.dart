@@ -4,6 +4,7 @@ import 'package:evanly/core/constant/app_constant_images.dart';
 import 'package:evanly/core/extensions/custom_form_Filed.dart';
 import 'package:evanly/core/extensions/extensions.dart';
 import 'package:evanly/core/routes/pageRouts.dart';
+import 'package:evanly/modules/homeScreen/layout_Home.dart';
 import 'package:flutter/material.dart';
 
 class signIn extends StatefulWidget {
@@ -36,7 +37,7 @@ class _signInState extends State<signIn> {
           ),),
           ).setRight(),
           OutlinedButton(onPressed: () {
-            //xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+            Navigator.pushNamed(context, PagesRouteName.layoutHome);
           }, child: Text("Login", style: TextStyle(
               fontSize: 20,
               color: app_color.appColorsWhite,
