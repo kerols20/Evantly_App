@@ -2,10 +2,11 @@ import 'package:bot_toast/bot_toast.dart';
 import 'package:evanly/core/constant/app_color.dart';
 import 'package:flutter/material.dart';
 class SanckBarServices {
+  //
   static void showSuccessMessage(String message) {
     BotToast.showCustomNotification(toastBuilder: ( void Function() cancelFunc) {
       return Card(
-        color: app_color.appColorGeneral,
+        color: Colors.green,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8),
         ),

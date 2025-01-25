@@ -15,6 +15,7 @@ void main()async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(const MyApp());
+  // here we must celled it after run app and use Easyloding in any place in app
   Services_loading();
 }
 
@@ -26,6 +27,7 @@ class MyApp extends StatelessWidget {
       theme: appTheme.lightTheme,
       debugShowCheckedModeBanner: false,
       initialRoute: PagesRouteName.splach, // نقطة البداية
+      // here we made called EasyLoading in builder MaterialApp
       builder: EasyLoading.init(
         builder: BotToastInit(),
       ),

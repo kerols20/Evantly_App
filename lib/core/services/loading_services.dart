@@ -1,7 +1,8 @@
 import 'package:evanly/core/constant/app_color.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-
 void Services_loading(){
+  // EasyLoading it works by system singleton class
+  // use EasyLoading to accuses at any place
   EasyLoading.instance
     ..displayDuration = Duration(milliseconds: 2000)
     ..indicatorType = EasyLoadingIndicatorType.fadingCircle

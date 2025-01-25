@@ -12,7 +12,6 @@ class on_Bording_screens extends StatefulWidget {
   @override
   State<on_Bording_screens> createState() => _on_Bording_screensState();
 }
-
 class _on_Bording_screensState extends State<on_Bording_screens> {
   var Controler = PageController();
   var activeIndex = 0;

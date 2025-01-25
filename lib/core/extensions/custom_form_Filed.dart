@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:evanly/core/constant/app_color.dart';
-
 class CustomFormField extends StatefulWidget {
   final String? labelText;
   final String? hintText;
