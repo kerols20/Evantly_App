@@ -5,7 +5,7 @@ import 'package:evanly/modules/onbording/on_BordingItem.dart';
 import 'package:evanly/modules/onbording/on_bording_model.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
+///xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx///////////////////////xxxxxxxxxxxxxxxxxxxxxxxxxxxx
 class on_Bording_screens extends StatefulWidget {
    on_Bording_screens({super.key});
 

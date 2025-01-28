@@ -1,5 +1,7 @@
 import 'package:evanly/core/constant/app_color.dart';
+import 'package:evanly/modules/homeScreen_tabs/home_tab.dart';
 import 'package:evanly/modules/homeScreen/widget/list_%20bulider.dart';
+import 'package:evanly/modules/homeScreen_tabs/home_tab.dart';
 import 'package:flutter/material.dart';
 
 class LayoutHome extends StatefulWidget {
@@ -11,6 +13,13 @@ class LayoutHome extends StatefulWidget {
 
 class _LayoutHomeState extends State<LayoutHome> {
   int Selectedindex = 0;
+  List<Widget> tabs = [
+    home_tab(),
+    Scaffold(),
+    Scaffold(),
+    Scaffold(),
+    Scaffold(),
+  ];
   @override
   Widget build(BuildContext context) {
     var meda = MediaQuery.of(context);
@@ -65,88 +74,7 @@ class _LayoutHomeState extends State<LayoutHome> {
             ),
           ],
         ),
-
-        body: Column(
-         crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                 color: app_color.appColorGeneral,
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(25),
-                  bottomLeft: Radius.circular(25)
-                )
-              ),
-              width: 50,
-              height: 150,
-               child: Column(
-                 mainAxisAlignment: MainAxisAlignment.start,
-                 crossAxisAlignment: CrossAxisAlignment.start,
-                 children: [
-                       Padding(
-                         padding: const EdgeInsets.only(top: 5, left: 8),
-                         child: Text("Welcome Back ✨", style: TextStyle(
-                           color: app_color.appColorsWhite,
-                           fontSize: 14,
-                         ),),
-                       ),
-                       Row(
-                         children: [
-                           Padding(
-                             padding: const EdgeInsets.only(bottom: 5, left: 8),
-                             child: Text("Kerolos adel", style: TextStyle(
-                               color: app_color.appColorsWhite,
-                               fontSize: 22,
-                             ),),
-                           ),
-                           SizedBox(width: 180,),
-                           Padding(
-                             padding: const EdgeInsets.only(right: 10, ),
-                             child: Icon(Icons.sunny, color: app_color.appColorsWhite,),
-                           ),
-                           Container(
-                             width: 50,
-                             height: 50,
-                             decoration: BoxDecoration(
-                               borderRadius: BorderRadius.circular(15),
-                               color: app_color.appColorsWhite
-                             ),
-                             child: Padding(
-                               padding: const EdgeInsets.only(top: 12),
-                               child: Text("EN",textAlign: TextAlign.center ,style: TextStyle(
-                                 color: app_color.appColorGeneral,
-                                 fontSize: 18,
-                               ),),
-                             ),
-                           ),
-                         ],
-                       ),
-                   Row(
-                     children: [
-                       Icon(Icons.location_on_outlined,  color: app_color.appColorsWhite,),
-                       Text("Cairo , Egypt", style: TextStyle(
-                         color: app_color.appColorsWhite,
-                         fontSize: 15,
-                         fontWeight: FontWeight.w700
-                       ),)
-                     ],
-                   ),
-                   Expanded(
-                     child: ListView.builder(
-                       scrollDirection: Axis.horizontal,
-                       itemCount: 3,
-                       itemBuilder: (context, index) {
-                        return List_bulider(
-                         Text2: Text("ALL"),
-                         icon: Icon(Icons.location_on_outlined,),
-                       );
-                     },),
-                   )
-                 ],
-               ),
-            )
-          ],
-        ),
+        body: tabs[Selectedindex],
       ),
     );
   }

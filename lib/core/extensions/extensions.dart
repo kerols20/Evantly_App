@@ -14,3 +14,7 @@ extension RightWidget on Widget{
     );
   }
 }
+extension Responsive on num{
+  Widget get spaceVertcial => SizedBox(height: toDouble());
+  Widget get spaceHorzintail => SizedBox(width: toDouble());
+}
