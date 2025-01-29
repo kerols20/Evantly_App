@@ -7,4 +7,5 @@ class PagesRouteName {
   static const String Creat_Account = "/Creat_Account";
   static const String RePassword = "/RePassword";
   static const String layoutHome = "/layoutHome";
+  static const String CreateEvant = "/CreateEvent";
 }

@@ -1,4 +1,5 @@
 import 'package:evanly/core/routes/pageRouts.dart';
+import 'package:evanly/modules/create_Evant/create_Evant.dart';
 import 'package:evanly/modules/homeScreen/layout_Home.dart';
 import 'package:evanly/modules/signIn/creat_Account.dart';
 import 'package:evanly/modules/signIn/rePassword.dart';
@@ -19,6 +20,11 @@ abstract class AppRoutes {
       case PagesRouteName.onboarding:
         return MaterialPageRoute(
           builder: (context) => OnboardingScreen(),
+          settings: settings,
+        );
+      case PagesRouteName.CreateEvant:
+        return MaterialPageRoute(
+          builder: (context) => create_Evant(),
           settings: settings,
         );
       case PagesRouteName.scound:

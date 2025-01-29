@@ -1,4 +1,6 @@
 import 'package:evanly/core/constant/app_color.dart';
+import 'package:evanly/core/extensions/extensions.dart';
+import 'package:evanly/modules/create_Evant/create_Evant.dart';
 import 'package:evanly/modules/homeScreen_tabs/home_tab.dart';
 import 'package:evanly/modules/homeScreen/widget/list_%20bulider.dart';
 import 'package:evanly/modules/homeScreen_tabs/home_tab.dart';
@@ -35,7 +37,7 @@ class _LayoutHomeState extends State<LayoutHome> {
           ),
           backgroundColor: app_color.appColorGeneral,
           onPressed: () {
-            ///////////////xxxxxxxxxxxx//////////////////
+            context.navigateTo(create_Evant());
         },
           child: Icon(Icons.add,
           color: app_color.appColorsWhite,),
