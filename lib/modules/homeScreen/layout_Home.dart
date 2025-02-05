@@ -4,6 +4,7 @@ import 'package:evanly/modules/create_Evant/create_Evant.dart';
 import 'package:evanly/modules/homeScreen_tabs/home_tab.dart';
 import 'package:evanly/modules/homeScreen/widget/list_%20bulider.dart';
 import 'package:evanly/modules/homeScreen_tabs/home_tab.dart';
+import 'package:evanly/modules/homeScreen_tabs/likes_tab.dart';
 import 'package:flutter/material.dart';
 
 class LayoutHome extends StatefulWidget {
@@ -17,7 +18,7 @@ class _LayoutHomeState extends State<LayoutHome> {
   int Selectedindex = 0;
   List<Widget> tabs = [
     home_tab(),
-    Scaffold(),
+    favorite_tab(),
     Scaffold(),
     Scaffold(),
     Scaffold(),

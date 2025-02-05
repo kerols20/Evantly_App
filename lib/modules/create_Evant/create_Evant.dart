@@ -242,20 +242,25 @@ List<EvantCatrory> EvantCatroryListViwe = [
                   ),
                   10.spaceVertcial,
                   OutlinedButton(onPressed: () {
-                   EventDataModel date = EventDataModel(Evanttitle: _TitleControl.text,
-                       EvantDate: selectedData!,
-                       description: _descreption.text, EnantIamge: EvantCatroryListViwe[seletTap].evantCategoryImage,
-                        EvantCategray: EvantCatroryListViwe[seletTap].evantCategoryName);
                    if (formKey.currentState!.validate()) {
                      if (selectedData != null) {
+                       //(here he must check if the date is selected or not and continue to create)
+                       EventDataModel date = EventDataModel(
+                         isfavorute: false,
+                           Evanttitle: _TitleControl.text,
+                           EvantDate: selectedData!,
+                           description: _descreption.text, EnantIamge: EvantCatroryListViwe[seletTap].evantCategoryImage,
+                           EvantCategray: EvantCatroryListViwe[seletTap].evantCategoryName);
                        EasyLoading.show();
                        firebasefunction().CreateNewEvant(date).then((value) {
-                         EasyLoading.dismiss();
-                         SanckBarServices.showSuccessMessage("sucsess Created");
-                         Navigator.pushNamed(context, PagesRouteName.layoutHome);
-                       }).onError((error, stackTrace) {
-                         EasyLoading.dismiss();
-                       });
+                         if(value == true){
+                           EasyLoading.dismiss();
+                           SanckBarServices.showSuccessMessage("sucsess Created");
+                           Navigator.pop(context);
+                         }
+                       }
+                       );}else{
+                       SanckBarServices.showErrorMessage("you must Choose Data");
                      }
                    }
                   }, child: Text("Creata Event", style: TextStyle(
