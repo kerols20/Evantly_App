@@ -8,4 +8,8 @@ class app_images{
   static String ConstantLogoEvanly = "assets/images/Group 4.png";
   static String ON = "assets/images/hot-trending.png";
   static String IamgeFive = "assets/images/change-setting.png";
+  static String HolidayImage= "assets/images/Frame 16.png";
+  static String SportsImage= "assets/images/Rectangle 977.png";
+  static String BookClubIamge = "assets/images/Frame 69.png";
+
 }

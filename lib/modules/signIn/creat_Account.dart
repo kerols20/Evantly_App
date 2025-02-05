@@ -100,32 +100,38 @@ class _CreatAccountState extends State<CreatAccount> {
               labelText: 'RePassword', hintText: 'RePassword',isPassword: true,
               prefixIcon: Icons.lock, suffixIcon: Icons.remove_red_eye),
           SizedBox(height: 10,),
-          OutlinedButton(onPressed: () {
-            // here we use formKey
-            if(formKey.currentState!.validate()){
-              /////////////xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx//////////////////////////////////
-              firebasefunction.createAccount(_EmailController.text, _PaaswordController.text
-              ).then((value) {
+          OutlinedButton(
+            onPressed: () {
+              if (formKey.currentState!.validate()) {
+                EasyLoading.show();
+                 firebasefunction.createAccount(
+                  _EmailController.text,
+                  _PaaswordController.text,
+                ).then((value) {
+                  if(value == true){
+                    Navigator.pop(context);
+                  }
+                },);
                 EasyLoading.dismiss();
-                 if(value == true){
-                   Navigator.pop(context);
-                 }
-              },
-              );
-            }
-          }, child: Text("Creata Account", style: TextStyle(
-            fontSize: 20,
-            fontWeight:FontWeight.w700,
-            color: app_color.appColorsWhite
-          ),),
+              }
+            },
+            child: Text(
+              "Create Account",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: app_color.appColorsWhite,
+              ),
+            ),
             style: OutlinedButton.styleFrom(
-                minimumSize: Size(390, 60),
+              minimumSize: Size(390, 60),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(18),
               ),
-                backgroundColor: app_color.appColorGeneral
+              backgroundColor: app_color.appColorGeneral,
             ),
           ),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,

@@ -7,6 +7,8 @@ import 'core/routes/pageRouts.dart';
 import 'core/routes/routs.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,6 +34,15 @@ class MyApp extends StatelessWidget {
         builder: BotToastInit(),
       ),
       onGenerateRoute: AppRoutes.onGeneratedRoute,
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('en'), // English
+        Locale('er'), // Spanish
+      ],
     );
   }
 }
