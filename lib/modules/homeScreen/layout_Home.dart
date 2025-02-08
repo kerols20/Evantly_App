@@ -2,13 +2,14 @@ import 'package:evanly/core/constant/app_color.dart';
 import 'package:evanly/core/extensions/extensions.dart';
 import 'package:evanly/modules/create_Evant/create_Evant.dart';
 import 'package:evanly/modules/homeScreen_tabs/home_tab.dart';
-import 'package:evanly/modules/homeScreen/widget/list_%20bulider.dart';
-import 'package:evanly/modules/homeScreen_tabs/home_tab.dart';
 import 'package:evanly/modules/homeScreen_tabs/likes_tab.dart';
+import 'package:evanly/modules/map_tab.dart';
+import 'package:evanly/modules/profile_tab.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class LayoutHome extends StatefulWidget {
-   LayoutHome({super.key});
+  LayoutHome({super.key});
 
   @override
   State<LayoutHome> createState() => _LayoutHomeState();
@@ -16,16 +17,18 @@ class LayoutHome extends StatefulWidget {
 
 class _LayoutHomeState extends State<LayoutHome> {
   int Selectedindex = 0;
+
   List<Widget> tabs = [
     home_tab(),
     favorite_tab(),
-    Scaffold(),
-    Scaffold(),
-    Scaffold(),
+    maps_tab(),
+    Profile_tab(),
   ];
+
   @override
   Widget build(BuildContext context) {
-    var meda = MediaQuery.of(context);
+    var local = AppLocalizations.of(context)!;
+
     return SafeArea(
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -33,47 +36,49 @@ class _LayoutHomeState extends State<LayoutHome> {
           shape: CircleBorder(
             side: BorderSide(
               width: 5,
-              color: app_color.appColorsWhite
-            ) ,
+              color: app_color.appColorsWhite,
+            ),
           ),
           backgroundColor: app_color.appColorGeneral,
           onPressed: () {
             context.navigateTo(create_Evant());
-        },
-          child: Icon(Icons.add,
-          color: app_color.appColorsWhite,),
+          },
+          child: Icon(
+            Icons.add,
+            color: app_color.appColorsWhite,
+          ),
         ),
         bottomNavigationBar: BottomNavigationBar(
           onTap: _onButtomVavBar,
           currentIndex: Selectedindex,
-          selectedItemColor: app_color.appColorsWhite, // لون العنصر النشط
-          unselectedItemColor: app_color.appColorsWhite, // لون العناصر غير النشطة
+          selectedItemColor: app_color.appColorsWhite,
+          unselectedItemColor: app_color.appColorsWhite,
           backgroundColor: app_color.appColorGeneral,
           type: BottomNavigationBarType.fixed,
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
-              activeIcon: Icon(Icons.home_filled), // أيقونة خاصة عند التفعيل
-              label: "home",
+              activeIcon: Icon(Icons.home_filled),
+              label: local.home,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.location_on_outlined),
-              activeIcon: Icon(Icons.location_on), // أيقونة خاصة عند التفعيل
-              label: "Map",
+              icon: Icon(Icons.favorite_border),
+              activeIcon: Icon(Icons.favorite),
+              label: local.favorite, // تصحيح التسمية
             ),
             BottomNavigationBarItem(
               icon: SizedBox.shrink(),
               label: "",
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite_border),
-              activeIcon: Icon(Icons.favorite), // أيقونة خاصة عند التفعيل
-              label: "love",
+              icon: Icon(Icons.map),
+              activeIcon: Icon(Icons.map),
+              label: local.map, // تصحيح التسمية
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.perm_identity_rounded),
-              activeIcon: Icon(Icons.perm_identity), // أيقونة خاصة عند التفعيل
-              label: "profile",
+              activeIcon: Icon(Icons.perm_identity),
+              label: local.profile,
             ),
           ],
         ),
@@ -81,10 +86,11 @@ class _LayoutHomeState extends State<LayoutHome> {
       ),
     );
   }
-   _onButtomVavBar(int index) {
+
+  _onButtomVavBar(int index) {
+    if (index == 2) return; // تجاهل الزر الأوسط
     setState(() {
-      Selectedindex = index;
+      Selectedindex = index > 2 ? index - 1 : index; // تعديل الفهرس
     });
   }
-
 }
