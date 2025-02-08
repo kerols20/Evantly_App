@@ -10,7 +10,11 @@ import 'package:evanly/modules/firebase_datebase/evant_Data_Model.dart';
 import 'package:evanly/modules/homeScreen_tabs/widgets/Catrgroy_Card.dart';
 import 'package:evanly/modules/homeScreen_tabs/widgets/button_nav_bar_item.dart';
 import 'package:evanly/modules/homeScreen_tabs/widgets/button_nav_bar_item.dart';
+import 'package:evanly/modules/settingsProvider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class home_tab extends StatefulWidget {
    home_tab({super.key});
@@ -19,7 +23,9 @@ class home_tab extends StatefulWidget {
   State<home_tab> createState() => _home_tabState();
 }
 
+
 class _home_tabState extends State<home_tab> {
+
   final GlobalKey<FormState> formKey = GlobalKey <FormState>();
   List<EvantCatrory> EvantCatroryListViwe2 = [
     EvantCatrory(evantCategoryName: "BookClub", evantCategoryIcon: Icons.menu_book_rounded,
@@ -32,6 +38,8 @@ class _home_tabState extends State<home_tab> {
   int seletTap = 0;
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<settings_Provider>(context);
+    var local = AppLocalizations.of(context)!;
     return Form(
       key:formKey ,
       child: Column(
@@ -48,7 +56,7 @@ class _home_tabState extends State<home_tab> {
             width: double.infinity,
             child: SafeArea(
               child: DefaultTabController(
-                length: 5,
+                length: EvantCatroryListViwe2.length,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -75,9 +83,18 @@ class _home_tabState extends State<home_tab> {
                               ],
                             ),
                         Spacer(),
-                        Padding(
-                          padding:  EdgeInsets.all(12.0),
-                          child: ImageIcon(AssetImage(icons_app.SunIcon,), color: app_color.appColorsWhite,),
+                        GestureDetector(
+                          onTap: () {
+                            if(provider.isDark()){
+                              provider.setNewTheme(ThemeMode.light);
+                            }else{
+                              provider.setNewTheme(ThemeMode.dark);
+                            }
+                          },
+                          child: Padding(
+                            padding:  EdgeInsets.all(12.0),
+                            child: ImageIcon(AssetImage(icons_app.SunIcon,), color: app_color.appColorsWhite,),
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -104,11 +121,7 @@ class _home_tabState extends State<home_tab> {
                         ),
                       ],
                     ),
-                    /////
-
-                    DefaultTabController(
-                      length: 5, // عدد التابات
-                      child: Column(
+                       Column(
                         children: [
                           TabBar(
                             onTap: (index) {
@@ -148,9 +161,7 @@ class _home_tabState extends State<home_tab> {
                               );
                             }).toList(),
                           ),
-
                         ],
-                      ),
                     ),
                     ////////////////////
                   ],
@@ -175,7 +186,6 @@ class _home_tabState extends State<home_tab> {
                 return e.data();
               }
               ,).toList();
-
               return evantDataList.isEmpty
                   ? Center(child: Text("No Events Available")) // ✅ معالجة حالة عدم وجود بيانات
                   : Expanded( // ✅ حل مشكلة الـ layout عبر تغليف ListView بـ Expanded
@@ -187,7 +197,6 @@ class _home_tabState extends State<home_tab> {
               );
             },
           ),
-
         ],
       ),
     );
