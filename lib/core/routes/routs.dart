@@ -1,3 +1,4 @@
+import 'package:evanly/core/evant_map/evant_map.dart';
 import 'package:evanly/core/routes/pageRouts.dart';
 import 'package:evanly/modules/create_Evant/create_Evant.dart';
 import 'package:evanly/modules/create_Evant/widget_selcetd-tab.dart';
@@ -51,6 +52,11 @@ abstract class AppRoutes {
       case PagesRouteName.layoutHome:
         return MaterialPageRoute(
           builder: (context) => LayoutHome(),
+          settings: settings,
+        );
+      case PagesRouteName.layoutHome:
+        return MaterialPageRoute(
+          builder: (context) => EvantMap(),
           settings: settings,
         );
       default:
