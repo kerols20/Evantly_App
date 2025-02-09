@@ -60,6 +60,22 @@ import 'package:firebase_auth/firebase_auth.dart';
         return Future.value(false);
       }
     }
+    // dont forget maked on rest password
+    static Future <bool>  resetPassword(String email) async{
+      EasyLoading.show();
+      try {
+        await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+        EasyLoading.dismiss();
+        SanckBarServices.showSuccessMessage("Password reset email sent");
+        return Future.value(true);
+    } on FirebaseAuthException catch (x) {
+        EasyLoading.dismiss();
+        print("Error: $x");
+        SanckBarServices.showErrorMessage("Something went wrong. Please try again.");
+        return Future.value(false);
+      }
+      }
+
     //////////////////xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx///////////////
     // Firestore collection reference with converter
     CollectionReference<EventDataModel> addToFireStore() {

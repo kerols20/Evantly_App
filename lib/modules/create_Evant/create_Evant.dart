@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evanly/core/constant/app_color.dart';
 import 'package:evanly/core/constant/app_constant_images.dart';
+import 'package:evanly/core/evant_map/evant_map.dart';
 import 'package:evanly/core/extensions/Custom_Elvated_Buttom.dart';
 import 'package:evanly/core/extensions/custom_form_Filed.dart';
 import 'package:evanly/core/extensions/extensions.dart';
@@ -201,7 +202,9 @@ List<EvantCatrory> EvantCatroryListViwe = [
                   10.spaceVertcial,
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(onPressed: () {},
+                    child: ElevatedButton(onPressed: () {
+                      context.navigateTo(EvantMap());
+                    },
                       style: ButtonStyle(
                         shape: WidgetStateProperty.all(RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15)

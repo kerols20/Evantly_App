@@ -8,4 +8,5 @@ class PagesRouteName {
   static const String RePassword = "/RePassword";
   static const String layoutHome = "/layoutHome";
   static const String CreateEvant = "/CreateEvent";
+  static const String EventMap = "/EventMap";
 }
