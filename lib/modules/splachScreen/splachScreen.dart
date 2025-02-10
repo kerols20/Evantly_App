@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:evanly/core/constant/app_constant_images.dart';
 import 'package:evanly/core/extensions/extensions.dart';
 import 'package:evanly/core/routes/pageRouts.dart';
@@ -14,7 +13,7 @@ class _SplachScreenState extends State<SplachScreen> {
   @override
   void initState() {
     Timer(
-      Duration(seconds: 3),
+      Duration(seconds: 6),
       () {
         Navigator.pushNamedAndRemoveUntil(context, PagesRouteName.scound,
           (route) => false,

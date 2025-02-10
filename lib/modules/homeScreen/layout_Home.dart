@@ -19,7 +19,7 @@ class _LayoutHomeState extends State<LayoutHome> {
   int Selectedindex = 0;
 
   List<Widget> tabs = [
-    home_tab(),
+    HomeTab(),
     favorite_tab(),
     maps_tab(),
     Profile_tab(),
@@ -41,7 +41,7 @@ class _LayoutHomeState extends State<LayoutHome> {
           ),
           backgroundColor: app_color.appColorGeneral,
           onPressed: () {
-            context.navigateTo(create_Evant());
+            context.navigateTo(Home());
           },
           child: Icon(
             Icons.add,
