@@ -31,30 +31,38 @@ import 'package:firebase_auth/firebase_auth.dart';
       }
     }
     static Future<bool> login(String email, String password) async {
-      EasyLoading.show();
+      EasyLoading.show(); // ✅ إظهار اللودينج أثناء العملية
+
       try {
         final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email,
           password: password,
         );
 
-        EasyLoading.dismiss();
+        EasyLoading.dismiss(); // ✅ إيقاف اللودينج عند النجاح
         SanckBarServices.showSuccessMessage("Account logged in successfully");
-        return Future.value(true);
-      } on FirebaseAuthException catch (x) {
-        EasyLoading.dismiss();
+        return Future.value(true); // ✅ إرجاع true عند النجاح
+      }
+      on FirebaseAuthException catch (x) {
+        EasyLoading.dismiss(); // ✅ إيقاف اللودينج عند الخطأ
 
-        if (x.code == "wrong-password") {
-          SanckBarServices.showErrorMessage("An Exacted ");
-        } else if (x.code == "user-not-found") {
+        if (x.code == "invalid-email") {
+          SanckBarServices.showErrorMessage("The email address is not valid. Please enter a correct email.");
+        }
+        else if (x.code == "wrong-password") {
+          SanckBarServices.showErrorMessage("Incorrect password. Please try again.");
+        }
+        else if (x.code == "user-not-found") {
           SanckBarServices.showErrorMessage("Email not found. Please check your email or create an account.");
-        } else {
-          SanckBarServices.showErrorMessage("Password is incorrect");
+        }
+        else {
+          SanckBarServices.showErrorMessage("An unexpected error occurred. Please try again.");
         }
 
-        return Future.value(false);
-      } catch (x) {
-        EasyLoading.dismiss();
+        return Future.value(false); // ❌ إرجاع false عند الفشل
+      }
+      catch (x) {
+        EasyLoading.dismiss(); // ✅ إيقاف اللودينج عند أي خطأ غير متوقع
         print("Error: $x");
         SanckBarServices.showErrorMessage("Something went wrong. Please try again.");
         return Future.value(false);
@@ -163,7 +171,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 // kokoqaw4@gmai.com
 // kokoadelsam
 
-
+// API key
+// AIzaSyCA5tq9Fs3CtRTp9pbCxsljCxQcjNl1B3I
 
 // static Future<void> CreateNewEvant(EventDataModel CreateNewEvant )async{
 // (error Bacuse cant assignment a nonstatic virible from out side )

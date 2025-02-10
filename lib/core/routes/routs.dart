@@ -26,7 +26,7 @@ abstract class AppRoutes {
         );
       case PagesRouteName.CreateEvant:
         return MaterialPageRoute(
-          builder: (context) => create_Evant(),
+          builder: (context) => Home(),
           settings: settings,
         );
       case PagesRouteName.scound:
@@ -46,7 +46,7 @@ abstract class AppRoutes {
         );
       case PagesRouteName.RePassword:
         return MaterialPageRoute(
-          builder: (context) => rePassword(),
+          builder: (context) => RePassword(),
           settings: settings,
         );
       case PagesRouteName.layoutHome:

@@ -1,306 +1,163 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:evanly/core/extensions/extensions.dart';
+import 'package:evanly/modules/create_Evant/widget_selcetd-tab.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:evanly/core/constant/app_color.dart';
 import 'package:evanly/core/constant/app_constant_images.dart';
-import 'package:evanly/core/evant_map/evant_map.dart';
-import 'package:evanly/core/extensions/Custom_Elvated_Buttom.dart';
 import 'package:evanly/core/extensions/custom_form_Filed.dart';
-import 'package:evanly/core/extensions/extensions.dart';
 import 'package:evanly/core/routes/pageRouts.dart';
 import 'package:evanly/core/services/sanck_bar_services.dart';
 import 'package:evanly/core/utils/firebaseFunction.dart';
-import 'package:evanly/modules/create_Evant/widget_selcetd-tab.dart';
 import 'package:evanly/modules/firebase_datebase/evant_Data_Model.dart';
-import 'package:evanly/modules/homeScreen_tabs/widgets/button_nav_bar_item.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:intl/intl.dart';
+import 'package:evanly/core/evant_map/evant_map.dart';
 
+class Home extends StatefulWidget {
+  const Home({super.key});
 
-class create_Evant extends StatefulWidget {
-   create_Evant({super.key});
   @override
-  State<create_Evant> createState() => _create_EvantState();
+  State<Home> createState() => _HomeState();
 }
 
-class _create_EvantState extends State<create_Evant> {
-  final GlobalKey<FormState> formKey = GlobalKey <FormState>();
-  final _TitleControl = TextEditingController();
-  final _descreption = TextEditingController();
-  int seletTap = 0;
-  DateTime? selectedData;
-List<EvantCatrory> EvantCatroryListViwe = [
-  EvantCatrory(evantCategoryName: "BookClub", evantCategoryIcon: Icons.menu_book_rounded,
-      evantCategoryImage: app_images.BookClubIamge),
-  EvantCatrory(evantCategoryName: "Sports", evantCategoryIcon: Icons.directions_bike,
-      evantCategoryImage: app_images.SportsImage),
-  EvantCatrory(evantCategoryName: "holiday", evantCategoryIcon: Icons.view_comfortable,
-      evantCategoryImage: app_images.HolidayImage)
+class _HomeState extends State<Home> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  int selectedTab = 0;
+  DateTime? selectedDate;
 
+  final List<EvantCatrory> eventCategories = [
+    EvantCatrory(evantCategoryName: "BookClub", evantCategoryIcon: Icons.menu_book_rounded, evantCategoryImage: app_images.BookClubIamge),
+    EvantCatrory(evantCategoryName: "Sports", evantCategoryIcon: Icons.directions_bike, evantCategoryImage: app_images.SportsImage),
+    EvantCatrory(evantCategoryName: "Holiday", evantCategoryIcon: Icons.view_comfortable, evantCategoryImage: app_images.HolidayImage),
+  ];
 
-];
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          Row(
-            children: [
-               Padding(
-                 padding:  EdgeInsets.only(right: 130),
-                 child: Text("Create Evant",style: TextStyle(
-                  fontSize: 22,
-                   color: app_color.appColorGeneral
-                 ),),
-               ),
-            ],
-          )
-
-        ],
-      ),
-      body: Form(
-        key: formKey,
-        child: DefaultTabController(
-          length: 5,
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.all(12.0),
-                child: Image.asset(EvantCatroryListViwe[seletTap].evantCategoryImage, fit: BoxFit.cover,),
-              ),
-              DefaultTabController(
-                length: 5, // عدد التابات
-                child: Column(
-                  children: [
-                    TabBar(
-                      onTap: (index) {
-                        setState(() {
-                          seletTap = index; // تحديث التاب المختار
-                        });
-                      },
-                      indicatorColor: Colors.transparent, // إخفاء المؤشر الأساسي
-                      labelColor: Colors.white, // لون النص عند التحديد
-                      unselectedLabelColor: Colors.grey, // لون النص عندما لا يكون محددًا
-                      tabs: EvantCatroryListViwe.asMap().entries.map((entry) {
-                        int index = entry.key;
-                        var category = entry.value;
-                        return Tab(
-                          child: Container(
-                            padding: EdgeInsets.all(5),
-                            decoration: BoxDecoration(
-                              color: seletTap == index ? app_color.appColorGeneral : app_color.appColorsWhite, // لون الخلفية حسب التحديد
-                              borderRadius: BorderRadius.circular(12), // تدوير الحواف
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  category.evantCategoryIcon,
-                                  color: seletTap == index ? app_color.appColorsWhite : app_color.appColorGeneral, // لون الأيقونة
-                                ),
-                                SizedBox(width: 8),
-                                Text(
-                                  category.evantCategoryName,
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: seletTap == index ? app_color.appColorsWhite : app_color.appColorGeneral // لون النص
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      }).toList(),
-                    ),
-
-                  ],
-                ),
-              ),
-              Column(
-                children: [
-                  Padding(
-                    padding:  EdgeInsets.only(right: 330),
-                    child: Text("Title", style: TextStyle(
-                      color: app_color.appColorsecound,
-                      fontSize: 18,
-                    )
-                    ),
-                  ),
-                  CustomFormField(
-                    controller: _TitleControl,
-                    labelText: '', hintText: 'what are you want do', prefixIcon: Icons.edit_note,
-                  ),
-                  Padding(
-                    padding:  EdgeInsets.only(right: 290),
-                    child: Text("Description", style: TextStyle(
-                      color: app_color.appColorsecound,
-                      fontSize: 18,
-                    )
-                    ),
-                  ),
-                  CustomFormField(
-                    controller: _descreption,
-                    labelText: '', hintText: 'Evant Description',
-                  ),
-                  Row(
-                    children: [
-                      Icon(Icons.calendar_month, color: app_color.appColorsecound,
-                      ),
-                      8.spaceHorzintail,
-                      Text("Event Date", style: TextStyle(
-                        color: app_color.appColorsecound,
-                        fontSize: 18,
-                      )
-                      ),
-                      170.spaceHorzintail,
-                      GestureDetector(
-                        onTap: () {
-                          ///xxxx///x//x//x/xx/x/x/x/x/
-                          SelectedDateToShow(context);
-                        },
-                        child: Text(  selectedData!= null ? DateFormat("dd MMM yyy").format(selectedData!) : 'Choose Data', style: TextStyle(
-                          color: app_color.appColorGeneral,
-                          fontSize: 18,
-                        )
-                        ),
-                      ),
-                    ],
-                  ),
-                  10.spaceVertcial,
-                  Row(
-                    children: [
-                      Icon(Icons.access_time_filled, color: app_color.appColorsecound,
-                      ),
-                      8.spaceHorzintail,
-                      Text("Event time", style: TextStyle(
-                        color: app_color.appColorsecound,
-                        fontSize: 18,
-                      )
-                      ),
-                      170.spaceHorzintail,
-                      GestureDetector(
-                        onTap: () {
-                          ///xxxxxxxxxxxxxxxxxxxxxxxxx////////////
-                        },
-                        child: Text('choose time', style: TextStyle(
-                          color: app_color.appColorGeneral,
-                          fontSize: 18,
-                        )
-                        ),
-                      ),
-                    ],
-                  ),
-                  5.spaceVertcial,
-                  Padding(
-                    padding: const EdgeInsets.only(right: 330),
-                    child: Text("loction", style: TextStyle(
-                      color: app_color.appColorsecound,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    )
-                    ),
-                  ),
-                  10.spaceVertcial,
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ElevatedButton(onPressed: () {
-                      context.navigateTo(EvantMap());
-                    },
-                      style: ButtonStyle(
-                        shape: WidgetStateProperty.all(RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15)
-                        )),
-                        minimumSize: WidgetStatePropertyAll(Size(40,70)),
-                        side:WidgetStateProperty.all(BorderSide(
-                          color: app_color.appColorGeneral,
-                          width: 1.5
-                        )) ,
-                      ),
-                      child:Row(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            color: app_color.appColorGeneral, // لون الخلفية
-                            borderRadius: BorderRadius.circular(10), // زوايا دائرية اختيارية
-                          ),
-                          padding: EdgeInsets.all(12), // زيادة المساحة داخل الـ Container
-                          child: Icon(
-                            Icons.location_on,
-                            color: app_color.appColorsWhite, // لون الأيقونة
-                            size: 30, // تكبير حجم الأيقونة إذا لزم الأمر
-                          ),
-                        ),
-                        10.spaceHorzintail,
-                        Text(
-                          'Cairo, Egypt',
-                          style: TextStyle(
-                            color: app_color.appColorGeneral,
-                            fontSize: 18,
-                          ),
-                        ),
-                        160.spaceHorzintail,
-                        Icon(Icons.arrow_forward_ios_outlined, color: app_color.appColorGeneral,)
-                      ],
-                    ),
-                    ),
-                  ),
-                  10.spaceVertcial,
-                  OutlinedButton(onPressed: () {
-                   if (formKey.currentState!.validate()) {
-                     if (selectedData != null) {
-                       //(here he must check if the date is selected or not and continue to create)
-                       EventDataModel date = EventDataModel(
-                         isfavorute: false,
-                           Evanttitle: _TitleControl.text,
-                           EvantDate: selectedData!,
-                           description: _descreption.text, EnantIamge: EvantCatroryListViwe[seletTap].evantCategoryImage,
-                           EvantCategray: EvantCatroryListViwe[seletTap].evantCategoryName);
-                       EasyLoading.show();
-                       firebasefunction().CreateNewEvant(date).then((value) {
-                         if(value == true){
-                           EasyLoading.dismiss();
-                           SanckBarServices.showSuccessMessage("sucsess Created");
-                           Navigator.pop(context);
-                         }
-                       }
-                       );}else{
-                       SanckBarServices.showErrorMessage("you must Choose Data");
-                     }
-                   }
-                  }, child: Text("Creata Event", style: TextStyle(
-                      fontSize: 20,
-                      fontWeight:FontWeight.w700,
-                      color: app_color.appColorsWhite
-                  ),),
-                    style: OutlinedButton.styleFrom(
-                        minimumSize: Size(390, 60),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(18),
-                        ),
-                        backgroundColor: app_color.appColorGeneral
-                    ),
-                  ),
-                ],
-              )
-            ],
+    final double screenWidth = MediaQuery.of(context).size.width;
+    return DefaultTabController(
+      length: eventCategories.length,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Create Event", style: TextStyle(color: app_color.appColorGeneral)),
+          bottom: TabBar(
+            onTap: (index) => setState(() => selectedTab = index),
+            indicatorColor: app_color.appColorGeneral,
+            labelColor: app_color.appColorGeneral,
+            unselectedLabelColor: app_color.appColorGeneral,
+            tabs: eventCategories.map((category) => _buildTabItem(category)).toList(),
+          ),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Form(
+            key: formKey,
+            child: ListView(
+              children: [
+                Image.asset(eventCategories[selectedTab].evantCategoryImage, fit: BoxFit.cover),
+                const SizedBox(height: 20),
+                _buildSectionTitle("Title"),
+                CustomFormField(controller: _titleController, hintText: "What do you want to do?", prefixIcon: Icons.edit_note),
+                _buildSectionTitle("Description"),
+                CustomFormField(controller: _descriptionController, hintText: "Event Description"),
+                _buildDateTimePicker(context, "Event Date", Icons.calendar_month, _selectDate, selectedDate != null ? DateFormat("dd MMM yyyy").format(selectedDate!) : "Choose Date"),
+                _buildDateTimePicker(context, "Event Time", Icons.access_time, () {}, "Choose Time"),
+                _buildSectionTitle("Location"),
+                _buildLocationButton(screenWidth),
+                _buildCreateEventButton(),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
-  void SelectedDateToShow(BuildContext context) async {
+
+  Widget _buildTabItem(EvantCatrory category) {
+    return Tab(
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(category.evantCategoryIcon, color: selectedTab == eventCategories.indexOf(category) ? app_color.appColorGeneral : app_color.appColorGeneral),
+          const SizedBox(width: 8),
+          Text(category.evantCategoryName, style: TextStyle(fontWeight: FontWeight.bold)),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle(String title) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 10, bottom: 5),
+      child: Text(title, style: TextStyle(color: app_color.appColorsecound, fontSize: 18, fontWeight: FontWeight.bold)),
+    );
+  }
+
+  Widget _buildDateTimePicker(BuildContext context, String label, IconData icon, VoidCallback onTap, String value) {
+    return ListTile(
+      leading: Icon(icon, color: app_color.appColorsecound),
+      title: Text(label, style: TextStyle(color: app_color.appColorsecound, fontSize: 18)),
+      trailing: GestureDetector(
+        onTap: onTap,
+        child: Text(value, style: TextStyle(color: app_color.appColorGeneral, fontSize: 18)),
+      ),
+    );
+  }
+
+  Widget _buildLocationButton(double screenWidth) {
+    return ElevatedButton(
+      onPressed: () => context.navigateTo(EvantMap()),
+      style: ElevatedButton.styleFrom(
+        padding: EdgeInsets.symmetric(vertical: 15),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        backgroundColor: Colors.white,
+        side: BorderSide(color: app_color.appColorGeneral, width: 1.5),
+      ),
+      child: Row(
+        children: [
+          SizedBox(width: screenWidth * 0.020),
+          Icon(Icons.location_on, color: app_color.appColorGeneral, size: 30),
+          SizedBox(width: screenWidth * 0.050),
+          Text("Cairo, Egypt", style: TextStyle(color: app_color.appColorGeneral, fontSize: 18)),
+          Spacer(),
+          Icon(Icons.arrow_forward_ios_outlined, color: app_color.appColorGeneral),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCreateEventButton() {
+    return Padding(
+      padding: const EdgeInsets.only(top: 20),
+      child: ElevatedButton(
+        onPressed: _createEvent,
+        style: ElevatedButton.styleFrom(
+          minimumSize: Size(double.infinity, 60),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+          backgroundColor: app_color.appColorGeneral,
+        ),
+        child: Text("Create Event", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white)),
+      ),
+    );
+  }
+
+  void _selectDate() async {
     DateTime? newDate = await showDatePicker(
       context: context,
-      initialDate: selectedData ?? DateTime.now(),
+      initialDate: selectedDate ?? DateTime.now(),
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(Duration(days: 30)),
+      lastDate: DateTime.now().add(const Duration(days: 30)),
     );
-
-    if (newDate != null && newDate != selectedData) {
-      setState(() {
-        selectedData = newDate;
-      });
-      print("Selected Date: ${DateFormat("dd MMM yyyy").format(selectedData!)}");
+    if (newDate != null) {
+      setState(() => selectedDate = newDate);
     }
   }
 
+  void _createEvent() {
+    if (formKey.currentState!.validate() && selectedDate != null) {
+      // تنفيذ إنشاء الحدث
+      SanckBarServices.showSuccessMessage("Success Created");
+    } else {
+      SanckBarServices.showErrorMessage("You must choose a date");
+    }
+  }
 }
