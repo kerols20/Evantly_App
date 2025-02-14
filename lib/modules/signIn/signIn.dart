@@ -14,7 +14,7 @@ class signIn extends StatefulWidget {
   @override
   State<signIn> createState() => _signInState();
 }
-
+//final
 class _signInState extends State<signIn> {
   final _EmailController = TextEditingController();
   final _PaaswordController = TextEditingController();
@@ -149,7 +149,9 @@ class _signInState extends State<signIn> {
                 ),
                 SizedBox(height: screenHeight * 0.02),
                 OutlinedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    firebasefunction.loginWithGoogel();
+                  },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

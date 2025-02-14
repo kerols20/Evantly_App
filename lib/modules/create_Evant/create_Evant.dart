@@ -1,6 +1,7 @@
 import 'package:evanly/core/extensions/extensions.dart';
 import 'package:evanly/modules/create_Evant/widget_selcetd-tab.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:evanly/core/constant/app_color.dart';
 import 'package:evanly/core/constant/app_constant_images.dart';
@@ -10,6 +11,8 @@ import 'package:evanly/core/services/sanck_bar_services.dart';
 import 'package:evanly/core/utils/firebaseFunction.dart';
 import 'package:evanly/modules/firebase_datebase/evant_Data_Model.dart';
 import 'package:evanly/core/evant_map/evant_map.dart';
+
+import '../homeScreen/widget/list_ bulider.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -26,138 +29,251 @@ class _HomeState extends State<Home> {
   DateTime? selectedDate;
 
   final List<EvantCatrory> eventCategories = [
-    EvantCatrory(evantCategoryName: "BookClub", evantCategoryIcon: Icons.menu_book_rounded, evantCategoryImage: app_images.BookClubIamge),
-    EvantCatrory(evantCategoryName: "Sports", evantCategoryIcon: Icons.directions_bike, evantCategoryImage: app_images.SportsImage),
-    EvantCatrory(evantCategoryName: "Holiday", evantCategoryIcon: Icons.view_comfortable, evantCategoryImage: app_images.HolidayImage),
+    EvantCatrory(evantCategoryName: "BookClub",
+        evantCategoryIcon: Icons.menu_book_rounded,
+        evantCategoryImage: app_images.BookClubIamge),
+    EvantCatrory(evantCategoryName: "Sports",
+        evantCategoryIcon: Icons.directions_bike,
+        evantCategoryImage: app_images.SportsImage),
+    EvantCatrory(evantCategoryName: "Holiday",
+        evantCategoryIcon: Icons.view_comfortable,
+        evantCategoryImage: app_images.HolidayImage),
   ];
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-    return DefaultTabController(
-      length: eventCategories.length,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Create Event", style: TextStyle(color: app_color.appColorGeneral)),
-          bottom: TabBar(
-            onTap: (index) => setState(() => selectedTab = index),
-            indicatorColor: app_color.appColorGeneral,
-            labelColor: app_color.appColorGeneral,
-            unselectedLabelColor: app_color.appColorGeneral,
-            tabs: eventCategories.map((category) => _buildTabItem(category)).toList(),
-          ),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Form(
-            key: formKey,
-            child: ListView(
-              children: [
-                Image.asset(eventCategories[selectedTab].evantCategoryImage, fit: BoxFit.cover),
-                const SizedBox(height: 20),
-                _buildSectionTitle("Title"),
-                CustomFormField(controller: _titleController, hintText: "What do you want to do?", prefixIcon: Icons.edit_note),
-                _buildSectionTitle("Description"),
-                CustomFormField(controller: _descriptionController, hintText: "Event Description"),
-                _buildDateTimePicker(context, "Event Date", Icons.calendar_month, _selectDate, selectedDate != null ? DateFormat("dd MMM yyyy").format(selectedDate!) : "Choose Date"),
-                _buildDateTimePicker(context, "Event Time", Icons.access_time, () {}, "Choose Time"),
-                _buildSectionTitle("Location"),
-                _buildLocationButton(screenWidth),
-                _buildCreateEventButton(),
-              ],
+    var size = MediaQuery.of(context).size;
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Create new event"),
+      ),
+        body: SingleChildScrollView(
+        physics: const ClampingScrollPhysics(),
+    child: Form(
+    key: formKey,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: size.width *1.0,
+          height: size.height * 0.21,
+
+          child: SizedBox(
+            width: size.width *1.0,
+            height: size.height * 0.21,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16.0),
+              child: Image.asset(
+                eventCategories[selectedTab].evantCategoryImage,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildTabItem(EvantCatrory category) {
-    return Tab(
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(category.evantCategoryIcon, color: selectedTab == eventCategories.indexOf(category) ? app_color.appColorGeneral : app_color.appColorGeneral),
-          const SizedBox(width: 8),
-          Text(category.evantCategoryName, style: TextStyle(fontWeight: FontWeight.bold)),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildSectionTitle(String title) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10, bottom: 5),
-      child: Text(title, style: TextStyle(color: app_color.appColorsecound, fontSize: 18, fontWeight: FontWeight.bold)),
-    );
-  }
-
-  Widget _buildDateTimePicker(BuildContext context, String label, IconData icon, VoidCallback onTap, String value) {
-    return ListTile(
-      leading: Icon(icon, color: app_color.appColorsecound),
-      title: Text(label, style: TextStyle(color: app_color.appColorsecound, fontSize: 18)),
-      trailing: GestureDetector(
-        onTap: onTap,
-        child: Text(value, style: TextStyle(color: app_color.appColorGeneral, fontSize: 18)),
-      ),
-    );
-  }
-
-  Widget _buildLocationButton(double screenWidth) {
-    return ElevatedButton(
-      onPressed: () => context.navigateTo(EvantMap()),
-      style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(vertical: 15),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-        backgroundColor: Colors.white,
-        side: BorderSide(color: app_color.appColorGeneral, width: 1.5),
-      ),
-      child: Row(
-        children: [
-          SizedBox(width: screenWidth * 0.020),
-          Icon(Icons.location_on, color: app_color.appColorGeneral, size: 30),
-          SizedBox(width: screenWidth * 0.050),
-          Text("Cairo, Egypt", style: TextStyle(color: app_color.appColorGeneral, fontSize: 18)),
-          Spacer(),
-          Icon(Icons.arrow_forward_ios_outlined, color: app_color.appColorGeneral),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildCreateEventButton() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20),
-      child: ElevatedButton(
-        onPressed: _createEvent,
-        style: ElevatedButton.styleFrom(
-          minimumSize: Size(double.infinity, 60),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-          backgroundColor: app_color.appColorGeneral,
+        SizedBox(height: 10),
+        DefaultTabController(
+          length: 3,
+          child: TabBar(
+              isScrollable: true,
+              tabAlignment: TabAlignment.start,
+              indicatorPadding: EdgeInsets.zero,
+              labelPadding: const EdgeInsets.symmetric(horizontal: 6.0),
+              padding:
+              const EdgeInsets.symmetric(vertical: 10, horizontal: 0),
+              indicator: const BoxDecoration(),
+              onTap: (value) {
+                setState(() {
+                  selectedTab = value;
+                });
+              },
+              tabs: eventCategories.map(
+                    (element) {
+                  return TabWidget(
+                    eventCategory: element,
+                    isSelected:
+                    selectedTab == eventCategories.indexOf(element),
+                  );
+                },
+              ).toList()),
         ),
-        child: Text("Create Event", style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700, color: Colors.white)),
-      ),
+        SizedBox(height: 5),
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Text(
+            "Title",
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+        ),
+        CustomFormField(
+          controller: _titleController,
+          validator: (value) {
+            if (value == null || value.trim().isEmpty) {
+              return "Please enter your title";
+            }
+            return null;
+          },
+          hintText: "Title",
+          prefixIcon: Icons.edit,
+        ),
+        SizedBox(height: 5,),
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Text(
+            "Description",
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+        ),
+        CustomFormField(
+          controller: _descriptionController,
+          hintText: "Description",
+          prefixIcon: Icons.edit,
+        ),
+        SizedBox(height: 10,),
+        Row(
+          children: [
+            const Icon(Icons.calendar_month),
+            const SizedBox(width: 10),
+            Text(
+              "Event Date",
+            ),
+            const Spacer(),
+            GestureDetector(
+              onTap: () {
+                selectEventDate(context);
+              },
+              child: Text(
+                selectedDate != null
+                    ? DateFormat("dd MMM yyy").format(selectedDate!)
+                    : "Choose Date",
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: app_color.appColorGeneral,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ],
+        ),
+        SizedBox(height: 10,),
+        Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: Text(
+            "Location",
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+        ),
+        ElevatedButton(
+          child: Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    color: app_color.appColorGeneral,
+                    borderRadius: BorderRadius.circular(8.0)),
+                child: const Icon(
+                  color: Colors.deepPurple,
+                  Icons.my_location_outlined,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Text(
+                "Choose Event Location",
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: app_color.appColorGeneral),
+              ),
+              const Spacer(),
+              const Icon(
+                Icons.arrow_forward_ios_rounded,
+              ),
+            ],
+          ) ,
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => EvantMap()));
+          },
+          style: ElevatedButton.styleFrom(
+              padding:
+              const EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(16.0),),
+            side: BorderSide(
+              color: app_color.appColorGeneral
+            )
+          ),
+          ),
+        SizedBox(height: 20,),
+        ElevatedButton(
+            onPressed: () {
+              if (formKey.currentState!.validate()) {
+                if (selectedDate != null) {
+                  EventDataModel data = EventDataModel(
+                    eventTitle: _titleController.text,
+                    eventDescription: _descriptionController.text,
+                    eventImage:
+                    eventCategories[selectedTab].evantCategoryImage,
+                    eventDate: selectedDate!,
+                    eventCategory:
+                    eventCategories[selectedTab].evantCategoryName,
+                  );
+
+                  EasyLoading.show();
+                  firebasefunction.creatNewEvent(data).then(
+                        (value) {
+                      EasyLoading.dismiss();
+                      if (value == true) {
+                        Navigator.pop(context);
+                        SanckBarServices.showSuccessMessage(
+                            "Event was successfully created");
+                      }
+                    },
+                  );
+                } else {
+                  SanckBarServices.showErrorMessage(
+                      "you must select event date");
+                }
+              }
+            },
+            style: ElevatedButton.styleFrom(
+                padding:  EdgeInsets.symmetric(
+                    horizontal: 8, vertical: 20),
+                elevation: 0,
+                backgroundColor: app_color.appColorGeneral,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16.0),
+                ),
+                side: BorderSide(color: app_color.appColorGeneral)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "Add Event",
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: app_color.appColorsWhite,
+                  ),
+                ),
+              ],
+            )),
+      ],
+    )
+    ),)
     );
   }
-
-  void _selectDate() async {
+  void selectEventDate(BuildContext context) async {
     DateTime? newDate = await showDatePicker(
       context: context,
-      initialDate: selectedDate ?? DateTime.now(),
       firstDate: DateTime.now(),
-      lastDate: DateTime.now().add(const Duration(days: 30)),
+      lastDate: DateTime.now().add(
+        const Duration(days: 365),
+      ),
     );
     if (newDate != null) {
-      setState(() => selectedDate = newDate);
-    }
-  }
-
-  void _createEvent() {
-    if (formKey.currentState!.validate() && selectedDate != null) {
-      // تنفيذ إنشاء الحدث
-      SanckBarServices.showSuccessMessage("Success Created");
-    } else {
-      SanckBarServices.showErrorMessage("You must choose a date");
+      setState(() {
+        selectedDate = newDate;
+      });
+      print(selectedDate);
     }
   }
 }

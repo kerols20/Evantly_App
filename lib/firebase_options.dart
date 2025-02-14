@@ -64,6 +64,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '989247349486',
     projectId: 'enantly',
     storageBucket: 'enantly.firebasestorage.app',
+    androidClientId: '989247349486-1td3i314558e9pmlqlqv6dk4a8khtvah.apps.googleusercontent.com',
+    iosClientId: '989247349486-4u10uh5tn3sagni3qli1qrkfvofp173m.apps.googleusercontent.com',
     iosBundleId: 'com.example.evanly',
   );
 

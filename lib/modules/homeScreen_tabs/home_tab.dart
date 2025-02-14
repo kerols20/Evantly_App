@@ -13,6 +13,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../Evant_Card_Widget.dart';
+
 class HomeTab extends StatefulWidget {
   HomeTab({super.key});
 
@@ -86,9 +88,18 @@ class _HomeTabState extends State<HomeTab> {
                               child: ImageIcon(AssetImage(icons_app.SunIcon), color: app_color.appColorsWhite),
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.all(mediaQuery.size.width * 0.02),
-                            child: CustomElvatedButtom(text: 'EN', borderRudis: 25),
+                          GestureDetector(
+                            onTap: () {
+                              print("🔄 Changing Language..."); // تحقق عند النقر
+                              provider.setNewLanguge(provider.Current_Languge == "ar" ? "en" : "ar");
+                            },
+                            child: Padding(
+                              padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.02),
+                              child: CustomElvatedButtom(
+                                text: provider.Current_Languge.toUpperCase(),
+                                borderRudis: 25,
+                              ),
+                            ),
                           )
                         ],
                       ),
@@ -151,7 +162,7 @@ class _HomeTabState extends State<HomeTab> {
           ),
           Expanded(
             child: StreamBuilder<QuerySnapshot<EventDataModel>>(
-              stream: firebasefunction().RealStreemDats(evantCategories[selectedTab].evantCategoryName),
+              stream: firebasefunction.RealStreemDats(evantCategories[selectedTab].evantCategoryName),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Center(child: Text("Something went wrong"));
@@ -160,6 +171,7 @@ class _HomeTabState extends State<HomeTab> {
                   return Center(child: CircularProgressIndicator());
                 }
                 List<EventDataModel> eventList = snapshot.data!.docs.map((e) => e.data()).toList();
+                print("Fetched ${eventList.length} events for category:");
                 return eventList.isEmpty
                     ? Center(child: Text("No Events Available"))
                     : ListView.separated(

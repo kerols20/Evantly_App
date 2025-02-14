@@ -8,6 +8,8 @@ import 'package:evanly/modules/profile_tab.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/evant_map/evant_map.dart';
+
 class LayoutHome extends StatefulWidget {
   LayoutHome({super.key});
 
@@ -21,7 +23,7 @@ class _LayoutHomeState extends State<LayoutHome> {
   List<Widget> tabs = [
     HomeTab(),
     favorite_tab(),
-    maps_tab(),
+    EvantMap(),
     Profile_tab(),
   ];
 

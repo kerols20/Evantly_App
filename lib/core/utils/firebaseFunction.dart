@@ -1,8 +1,12 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evanly/core/services/sanck_bar_services.dart';
 import 'package:evanly/modules/firebase_datebase/evant_Data_Model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
   import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:google_sign_in/google_sign_in.dart';
   class firebasefunction {
     static Future<bool> createAccount(String email, String password) async {
       EasyLoading.show();
@@ -83,76 +87,88 @@ import 'package:firebase_auth/firebase_auth.dart';
         return Future.value(false);
       }
       }
-
+// final
     //////////////////xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx///////////////
-    // Firestore collection reference with converter
-    CollectionReference<EventDataModel> addToFireStore() {
+   static CollectionReference <EventDataModel>gatCollectionRef(){
+      // take object from FirebaseFirestore
+    FirebaseFirestore collRef =  FirebaseFirestore.instance;
+    // get collection
+    return collRef.collection(EventDataModel.collectionName).withConverter(
+      // here sand data as object to firestore and get it as object
+        fromFirestore: (snapshot, _) => EventDataModel.fromFirestore(snapshot.data()!),
+        toFirestore: (value, options) => value.toFirestore(),);
+  }
+    static Future<bool> creatNewEvent(EventDataModel aventDatamodel) async {
+      try {
+        final collectionRef = gatCollectionRef();
+        var docref = collectionRef.doc(); // إنشاء مستند جديد
+        aventDatamodel.eventID = docref.id; // تعيين معرف المستند
+
+        await docref.set(aventDatamodel);
+        return true;
+      } catch (e) {
+        print("Error creating event: $e");
+        return false;
+      }
+    }
+    gatDateFromFireStore() async{
+      final collectionRef3 = gatCollectionRef();
+      var data = await collectionRef3.get();
+      var EvantDateList = data.docs.map((e) => e.data()).toList();
+    }
+    static Stream<QuerySnapshot<EventDataModel>> RealStreemDats(String categryName) {
+      var collectionRef = addToFireStore();
+      var query = collectionRef.where("eventCategory", isEqualTo: categryName);
+      return query.snapshots();
+    }
+    static CollectionReference<EventDataModel> addToFireStore() {
       FirebaseFirestore collectionRef = FirebaseFirestore.instance;
       return collectionRef
-          .collection(EventDataModel.collectionNamed)
+          .collection(EventDataModel.collectionName)
           .withConverter<EventDataModel>(
         fromFirestore: (snapshot, _) =>
-            EventDataModel.fromJason(snapshot.data()!),
-        toFirestore: (value, _) => value.tofireStore(),
+            EventDataModel.fromFirestore(snapshot.data()!),
+        toFirestore: (value, _) => value.toFirestore(),
       );
     }
-    Future<bool> CreateNewEvant(EventDataModel CreateNewEvant) async {
-      try {
-        var collectionRef = addToFireStore();
-        var document = collectionRef.doc();
-        CreateNewEvant.EvantId = document.id;
-        await document.set(CreateNewEvant);
-        return Future.value(true);
-      } catch (error) {
-        print("❌ Error creating event: $error");
-        return Future.value(false);
-      }
-    }
-
-// Retrieve event data from Firestore
-    Future<List<EventDataModel>> gatDataFromFireStore() async {
-      var collectionRef = addToFireStore();
-      try {
-        QuerySnapshot<EventDataModel> data = await collectionRef.get();
-        List<EventDataModel> eventDataList = data.docs.map((doc) => doc.data()).toList();
-        print("🔥 Retrieved ${eventDataList.length} event(s)");
-        return eventDataList;
-      } catch (e) {
-        print("❌ Error retrieving data: $e");
-        return [];
-      }
-    }
-    Stream<QuerySnapshot<EventDataModel>> RealStreemDats(String categryName){
-      // first add collction Ref
-      var collectionRef = addToFireStore().where("EvantCategray", isEqualTo: categryName);
+    static Stream<QuerySnapshot<EventDataModel>> getStreamFavoriteData() {
+      var collectionRef = gatCollectionRef().where(
+        "isFavorite",
+        isEqualTo: true,
+      );
       return collectionRef.snapshots();
     }
-    //////////////////////////////////////////////////////////////////////////////////////////////
-    Stream<QuerySnapshot<EventDataModel>> favoriteFireStore(){
-      // first add collction Ref
-      var collectionRef = addToFireStore().where("isfavorute", isEqualTo: true);
-      return collectionRef.snapshots();
-    }
-    Future<void> deleteEvent(String documentId) async {
-      try{
-        var collectionRef = addToFireStore();
-        var docref = collectionRef.doc(documentId);
-        docref.delete();
-        Future.value(true);
-      } catch (error) {
-        Future.value(false);
-      }
-    }
-    Future<void> updetEvent(String documentId, Map<String, dynamic> updateData) async {
-      try {
-        var collectionRef = addToFireStore();
-        var docRef = collectionRef.doc(documentId);
-        await docRef.update(updateData);
-      } catch (error) {
-        print("❌ Error updating event: $error");
-      }
-    }
 
+
+
+    static Future<bool> updateEvent(String eventID, Map<String, dynamic> data) async {
+      try {
+        var collectionRef = gatCollectionRef();
+        var docRef = collectionRef.doc(eventID);
+
+        await docRef.update(data); // ✅ إضافة await لضمان اكتمال التحديث
+
+        return true;
+      } catch (error) {
+        print("Error updating event: $error"); // ✅ طباعة الخطأ لتصحيح المشكلة
+        return false;
+      }
+    }
+    static loginWithGoogel() async{
+      EasyLoading.show();
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+      var googleuserCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+    }
   }
 
 
@@ -173,18 +189,3 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 // API key
 // AIzaSyCA5tq9Fs3CtRTp9pbCxsljCxQcjNl1B3I
-
-// static Future<void> CreateNewEvant(EventDataModel CreateNewEvant )async{
-// (error Bacuse cant assignment a nonstatic virible from out side )
-// // first add addToFireStore and named CollectionRef
-// final CollectionRef = addToFireStore();
-// // second create a document on firestore under your collection
-// var document =  CollectionRef.doc();
-// // here we gat the EvantId from document to do on it oprtion
-// // CreateNewEvant is object . assignment EvantId == document.id
-// CreateNewEvant.EvantId = document.id;
-// //(هنا بعد عمل ديكومنت فاضي جيب منه الايدي وادي لdocument )
-// // sand to him object CreateNewEvant and he will converted to jason
-// // set collection document .set(CreateNewEvant) object
-// return document.set(CreateNewEvant);
-// }

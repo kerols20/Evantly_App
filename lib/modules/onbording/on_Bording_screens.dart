@@ -22,8 +22,7 @@ class _on_Bording_screensState extends State<on_Bording_screens> {
     var media = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: media.width * 0.05),
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
@@ -34,7 +33,9 @@ class _on_Bording_screensState extends State<on_Bording_screens> {
                   height: media.height * 0.09,
                 ),
               ),
-              Expanded(
+              SizedBox(height: media.height * 0.02),
+              SizedBox(
+                height: media.height * 0.6, // تحديد ارتفاع مناسب لـ PageView
                 child: PageView.builder(
                   controller: Controler,
                   onPageChanged: (index) {
@@ -49,7 +50,8 @@ class _on_Bording_screensState extends State<on_Bording_screens> {
                   },
                 ),
               ),
-              SizedBox(height: media.height * 0.02),
+              SizedBox(height: media.height * 0.10),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -110,7 +112,7 @@ class _on_Bording_screensState extends State<on_Bording_screens> {
                   ),
                 ],
               ),
-              SizedBox(height: media.height * 0.03),
+              SizedBox(height: media.height * 0.5),
             ],
           ),
         ),

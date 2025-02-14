@@ -45,7 +45,8 @@ class MyApp extends StatelessWidget {
       onGenerateRoute: AppRoutes.onGeneratedRoute,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      locale: Locale(settings.Current_Languge),
+      locale: Locale(settings.Current_Languge == "ar" ? "ar" : "en"),
+
     );
   }
 }

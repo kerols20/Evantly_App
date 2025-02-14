@@ -1,49 +1,45 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class EventDataModel {
-  static const collectionNamed = "EvantDataModelCollection";
-  String EvantId;
-  String Evanttitle;
-  DateTime EvantDate;
-  String description;
-  String EnantIamge;
-  bool isfavorute;
-  String EvantCategray;
+  static const String collectionName = "EventDataCollection";
+  String eventID;
+  String eventTitle;
+  String eventDescription;
+  String eventCategory;
+  String eventImage;
+  DateTime eventDate;
+  bool isFavorite;
 
   EventDataModel({
-    this.EvantId = "",
-    required this.Evanttitle,
-    required this.EvantDate,
-    required this.description,
-    required this.EnantIamge,
-    required this.EvantCategray,
-    required this.isfavorute,
+    this.eventID = "",
+    required this.eventTitle,
+    required this.eventDescription,
+    required this.eventCategory,
+    required this.eventImage,
+    required this.eventDate,
+    this.isFavorite = false,
   });
 
-  // Convert object to Firestore document format (Map)
-  Map<String, dynamic> tofireStore() {
+  /// we need [Function] to convert json to object
+  factory EventDataModel.fromFirestore(Map<String, dynamic> json) =>
+      EventDataModel(
+        eventID: json["eventID"],
+        eventTitle: json["eventTitle"],
+        eventDescription: json["eventDescription"],
+        eventCategory: json["eventCategory"],
+        eventImage: json["eventImage"],
+        eventDate: DateTime.fromMillisecondsSinceEpoch(json["eventDate"]),
+        isFavorite: json["isFavorite"],
+      );
+
+  /// we need [Function] to convert object to json
+  Map<String, dynamic> toFirestore() {
     return {
-      "EvantId": EvantId,
-      "Evanttitle": Evanttitle,
-      "EvantDate": EvantDate,
-      "description": description,
-      "EnantIamge": EnantIamge,
-      "EvantCategray": EvantCategray,
-      "isfavorute": isfavorute,
+      "eventID": eventID,
+      "eventTitle": eventTitle,
+      "eventDescription": eventDescription,
+      "eventCategory": eventCategory,
+      "eventImage": eventImage,
+      "eventDate": eventDate.millisecondsSinceEpoch,
+      "isFavorite": isFavorite,
     };
-  }
-  // Convert Firestore document (Map) to object
-  factory EventDataModel.fromJason(Map<String, dynamic> jason) {
-    return EventDataModel(
-      EvantDate: (jason["EvantDate"] is Timestamp)
-          ? (jason["EvantDate"] as Timestamp).toDate()  // Convert Timestamp to DateTime
-          : DateTime.fromMicrosecondsSinceEpoch(jason["EvantDate"]),
-      isfavorute: jason["isfavorute"] ?? false,
-      description: jason["description"],
-      EvantId: jason["EvantId"] ?? '',
-      Evanttitle: jason["Evanttitle"],
-      EnantIamge: jason["EnantIamge"],
-      EvantCategray: jason["EvantCategray"],
-    );
   }
 }

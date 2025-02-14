@@ -12,7 +12,20 @@
           "package_name": "com.example.evanly"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "989247349486-1td3i314558e9pmlqlqv6dk4a8khtvah.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.evanly",
+            "certificate_hash": "1e45b100d96863f22d93cf9c302b00e7020eb43f"
+          }
+        },
+        {
+          "client_id": "989247349486-1isr31f8gcrl3vo1djhllmqbtgmu5dov.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyChUgo3K0qamDPv0mLsacfxLijO3rgyL2A"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "989247349486-1isr31f8gcrl3vo1djhllmqbtgmu5dov.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "989247349486-4u10uh5tn3sagni3qli1qrkfvofp173m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.evanly"
+              }
+            }
+          ]
         }
       }
     }

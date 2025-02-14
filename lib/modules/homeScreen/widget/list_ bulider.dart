@@ -1,24 +1,43 @@
 import 'package:evanly/core/constant/app_color.dart';
 import 'package:flutter/material.dart';
 
-class List_bulider extends StatelessWidget {
-   List_bulider({super.key, required this.icon, required this.Text2});
-   final Icon icon;
-   final Text Text2;
+import '../../create_Evant/widget_selcetd-tab.dart';
+
+class TabWidget extends StatelessWidget {
+  final EvantCatrory eventCategory;
+  final bool isSelected;
+
+  const TabWidget({
+    super.key,
+    required this.eventCategory,
+    required this.isSelected,
+  });
 
   @override
   Widget build(BuildContext context) {
+    var theme = Theme.of(context);
+
     return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
       decoration: BoxDecoration(
-        color: app_color.appColorsWhite,
-        borderRadius: BorderRadius.circular(25)
+        color: isSelected ? app_color.appColorGeneral : app_color.appColorsWhite,
+        borderRadius: BorderRadius.circular(20.0),
+        border: Border.all(color: app_color.appColorGeneral),
       ),
-      width: 80,
-      height: 15,
       child: Row(
         children: [
-          icon,
-          Text2,
+          Icon(
+            eventCategory.evantCategoryIcon,
+            color: isSelected ? app_color.appColorsWhite : app_color.appColorsWhite,
+          ),
+          SizedBox(width: 5),
+          Text(
+            eventCategory.evantCategoryName,
+            style: theme.textTheme.titleMedium?.copyWith(
+                color: isSelected
+                    ? app_color.appColorsWhite
+                    : app_color.appColorGeneral),
+          )
         ],
       ),
     );

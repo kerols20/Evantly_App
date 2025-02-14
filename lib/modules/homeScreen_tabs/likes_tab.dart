@@ -10,6 +10,8 @@ import 'package:evanly/modules/homeScreen_tabs/widgets/Catrgroy_Card.dart';
 import 'package:evanly/modules/create_Evant/widget_selcetd-tab.dart';
 import 'package:flutter/material.dart';
 
+import '../Evant_Card_Widget.dart';
+
 class favorite_tab extends StatefulWidget {
   const favorite_tab({super.key});
 
@@ -43,7 +45,7 @@ class _favorite_tabState extends State<favorite_tab> {
           ),10.spaceVertcial,
           StreamBuilder <QuerySnapshot<EventDataModel>>
             (
-            stream: firebasefunction().favoriteFireStore(),
+            stream: firebasefunction.getStreamFavoriteData(),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return Center(child: Text("Some thing went wrong"));
